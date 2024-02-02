@@ -1,0 +1,33 @@
+# Compiled class file
+*.class
+
+# Bytecode
+*.jar
+
+# Eclipse specific files
+.project
+.classpath
+.settings/
+
+# IntelliJ specific files
+.idea/
+
+# NetBeans specific files
+nbproject/
+build/
+
+# Maven specific files
+target/
+pom.xml.*
+*-SNAPSHOT/
+
+# Gradle specific files
+build/
+.gradle/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

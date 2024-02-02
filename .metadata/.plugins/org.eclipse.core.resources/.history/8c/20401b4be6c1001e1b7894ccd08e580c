@@ -1,0 +1,15 @@
+package project_2048_logic;
+
+import java.util.Random;
+/**
+ * 
+ * Klasa Board predstavlja ploču za igru 2048. Implemetirane su metode za
+ * pomicanje gore, dolje, lijevo i desno. Također implementirane metode za
+ * informacijie o igri uključujući rezultat, najveću pločicu i je li igra gotova
+ * ili nije
+ *
+ * @author Azra Hadzihajdarevic
+ */
+public class Board {
+	
+}

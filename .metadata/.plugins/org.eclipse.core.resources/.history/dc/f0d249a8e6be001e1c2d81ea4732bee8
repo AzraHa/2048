@@ -1,0 +1,43 @@
+package project_2048_logic;
+
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+
+		System.out.print(
+				"Enter the size of the board (e.g., 4 for a 4x4 board): ");
+		int boardSize = scanner.nextInt();
+
+		Board gameBoard = new Board(boardSize);
+
+		while (!gameBoard.isGameOver()) {
+			gameBoard.printBoard();
+			System.out.print("Enter a move (L/R/U/D or Q to quit): ");
+			String move = scanner.next().toUpperCase();
+
+			if (move.equals("Q")) {
+				System.out.println("Quitting the game. Goodbye!");
+				break;
+			}
+
+			if (move.equals("L")) {
+				 gameBoard.left();
+			}
+
+			// Implement logic for handling user moves (e.g.,
+			 
+
+			// Check if the game is won or lost
+			// ...
+
+			// Add a new random tile after each move
+			gameBoard.addRandomTile();
+		}
+
+		scanner.close();
+	}
+
+}

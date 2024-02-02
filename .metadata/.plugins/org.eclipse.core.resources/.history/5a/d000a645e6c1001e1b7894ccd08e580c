@@ -1,0 +1,12 @@
+package project_2048_logic;
+
+/**
+ * 
+ * Predstavlja pojedinačnu pločicu u igri. Ima cjelobrojnu vrijednost i boju -
+ * obje se mijenjaju kako se kombiniraju.
+ * 
+ * @author Azra HAdzihajdarevic
+ */
+public class Tile {
+	
+}

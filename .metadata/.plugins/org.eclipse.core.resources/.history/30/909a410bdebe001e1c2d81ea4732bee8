@@ -1,0 +1,52 @@
+package project_2048_logic;
+
+/**
+ * The Color class represents a color in the RGB color model with integer values
+ * for red, green, and blue components.
+ * @author Azra Hadzihajdarevic
+ */
+public class Color {
+    private int red;
+    private int green;
+    private int blue;
+
+    /**
+     * Constructs a Color object with specified red, green, and blue values.
+     * 
+     * @param red   The red component of the color (0 to 255).
+     * @param green The green component of the color (0 to 255).
+     * @param blue  The blue component of the color (0 to 255).
+     */
+    public Color(int red, int green, int blue) {
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+    }
+
+    /**
+     * Gets the red component of the color.
+     * 
+     * @return The red component of the color (0 to 255).
+     */
+    public int getRed() {
+        return red;
+    }
+
+    /**
+     * Gets the green component of the color.
+     * 
+     * @return The green component of the color (0 to 255).
+     */
+    public int getGreen() {
+        return green;
+    }
+
+    /**
+     * Gets the blue component of the color.
+     * 
+     * @return The blue component of the color (0 to 255).
+     */
+    public int getBlue() {
+        return blue;
+    }
+}

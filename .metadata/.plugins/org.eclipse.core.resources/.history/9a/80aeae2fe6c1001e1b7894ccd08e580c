@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * 
+ */
+module project_2048 {
+	requires java.desktop;
+}
