@@ -18,24 +18,59 @@ import project_2048_logic.Color2048;
 
 /**
  * GamePanel klasa koja predstavlja GUI za igru 2048.
+ *  @author Azra Hadzihajdarevic
  */
 public class GamePanel extends JPanel {
+	/**
+	 * Identifikacijski broj za verziju serijalizacije.
+	 * Ovo se koristi kako bi se osiguralo da se serijalizirani podaci mogu deserializirati ispravno
+	 * čak i kada su se unijele određene promjene u klasu.
+	 */
 	private static final long serialVersionUID = 1L;
 
 	// Instanciranje objekata za logiku igre i boje
+	
+	/**
+	 * Objekt koji predstavlja logiku igre 2048
+	 */
 	private Board newBoard;
+
+	/**
+	 * Objekt koji predstavlja boje u igri 2048
+	 */
 	private Color2048 color;
 
 	// GUI komponente
+	
+	/**
+	 * Dvodimenzionalno polje JLabel objekata koje predstavlja prikaz ploče igre
+	 */
 	private JLabel[][] gridLabels;
+
+	/**
+	 * Glavni prozor (JFrame) igre
+	 */
 	private JFrame frame;
+
+	/**
+	 * Panel (JPanel) koji sadrži prikaz ploče igre
+	 */
 	private JPanel gridPanel;
+
+	/**
+	 * JLabel komponenta koja prikazuje trenutni rezultat igre
+	 */
 	private JLabel scoreLabel;
+
+	/**
+	 * JLabel komponenta koja prikazuje najveci postignuti rezultat igre
+	 */
 	private JLabel highScoreLabel;
+
 
 	/**
 	 * Konstruktor koji inicijalizira GUI komponente i postavlja osnovne
-	 * postavke prozora.
+	 * postavke ploce
 	 */
 	public GamePanel() {
 		// Inicijalizacija objekta za generiranje slučajnih brojeva

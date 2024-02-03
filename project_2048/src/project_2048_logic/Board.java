@@ -13,10 +13,29 @@ import java.util.Random;
  */
 
 public class Board {
+	/**
+	 * 2D polje koje predstavlja ploču igre
+	 */
 	public Tile[][] board;
+
+	/**
+	 * Konstanta koja predstavlja veličinu ploče igre (broj redova i kolona)
+	 */
 	public static final int SIZE = 4;
+
+	/**
+	 * Trenutni rezultat igre.
+	 */
 	public int score = 0;
+
+	/**
+	 * Najviši postignuti rezultat u igri
+	 */
 	public int highScore = 0;
+
+	/**
+	 * Indikator koji označava pobjedu u igri
+	 */
 	public boolean win;
 
 	/**
@@ -293,9 +312,9 @@ public class Board {
 		}
 	}
 
-	/*
+	/**
 	 * Metoda dodaje novi broj na praznu plocicu
-	 */
+	 **/
 	public void addNewNumber() {
 		int row, col;
 		Random random = new Random();
@@ -374,10 +393,16 @@ public class Board {
 		addNewNumber();
 	}
 
+	/**
+	 * Metoda koja ažurira najviši rezultat ukoliko trenutni rezultat premašuje
+	 * trenutni najviši rezultat.
+	 */
 	public void updateScore() {
-		// Updates the score
+		// Provjeri je li trenutni rezultat veći od najvišeg rezultata
 		if (score > highScore) {
+			// Ako je trenutni rezultat veći, postavi ga kao najviši rezultat
 			highScore = score;
 		}
 	}
+
 }
