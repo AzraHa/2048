@@ -5,18 +5,19 @@ import java.util.Random;
  * 
  * Klasa Board predstavlja ploču za igru 2048. Implemetirane su metode za
  * pomicanje gore, dolje, lijevo i desno. Također implementirane metode za
- * informacijie o igri uključujući rezultat, najveću pločicu i je li igra gotova
- * ili nije. Koristit ćemo dvodimenzionalni niz za predstavljanje ploče za igru.
- * Svaki element niza će sadržavati vrijednost odgovarajuće pločice.
+ * informacijie o igri uključujući rezultat, najveci rezultat i je li igra
+ * gotova ili nije. Koristit ćemo dvodimenzionalni niz za predstavljanje ploče
+ * za igru. Svaki element niza će sadržavati vrijednost odgovarajuće pločice.
  * 
  * @author Azra Hadzihajdarevic
  */
 
 public class Board {
 	public Tile[][] board;
-	private static final int SIZE = 4;
+	public static final int SIZE = 4;
 	public int score = 0;
-	private boolean winConditionReached;
+	public int highScore = 0;
+	public boolean win;
 
 	/**
 	 * Konstruktor Board postavlja plocu velicine 4x4
@@ -31,66 +32,92 @@ public class Board {
 	}
 
 	/**
-	 * Metoda postavlja 'random' plocicu na tablu
+	 * Dodaje novu nasumičnu pločicu na tablu. Vrijednost pločice se postavlja
+	 * nasumično na 2 ili 4. Pločica se postavlja na nasumično odabrano prazno
+	 * polje na tabli.
 	 */
 	public void addRandomTile() {
+		// Kreira se objekat Random za generisanje nasumičnih brojeva
 		Random rand = new Random();
 
+		// Kreira se nova pločica (Tile)
 		Tile tile = new Tile();
+
+		// Postavlja se vrijednost pločice na 2 ili 4
 		tile.setValue((rand.nextInt(2) + 1) * 2);
 
+		// Broji se koliko praznih polja ima na tabli
 		int emptyCellCount = countEmptyCells();
 
+		// Ako postoji barem jedno prazno polje na tabli
 		if (emptyCellCount > 0) {
+			// Generiše se nasumičan indeks unutar raspona praznih polja
 			int randomIndex = rand.nextInt(emptyCellCount);
+
+			// Brojač za praćenje trenutnog praznog polja koje se razmatra
 			int count = 0;
 
+			// Iterira se kroz svako polje na tabli
 			for (int i = 0; i < SIZE; i++) {
 				for (int j = 0; j < SIZE; j++) {
+					// Provjerava se da li je trenutno polje prazno
 					if (board[i][j].getValue() == 0) {
+						// Ako je ovo prazno polje koje tražimo
 						if (count == randomIndex) {
+							// Postavlja se nova pločica na prazno polje
 							board[i][j] = tile;
-							return;
+							return; // Izlazi iz metode nakon postavljanja
+									// pločice
 						}
-						count++;
+						count++; // Povećava se brojač praznih polja
 					}
 				}
 			}
 		}
 	}
 
-	/*
-	 * Metoda countEmptyCells vraca broj 'praznih' plocica, tj. one cija je
-	 * vrijednost jednaka 0
+	/**
+	 * Metoda countEmptyCells vraća broj praznih pločica, tj. onih čija je
+	 * vrijednost jednaka 0.
 	 * 
-	 * @return count
+	 * @return Broj praznih pločica na tabli.
 	 */
 	private int countEmptyCells() {
 		int count = 0;
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+
+		// Iterira kroz svako polje na tabli
+		for (int i = 0; i < SIZE; i++) {
+			for (int j = 0; j < SIZE; j++) {
+				// Provjerava da li je vrijednost pločice na trenutnom polju
+				// jednaka 0
 				if (board[i][j].getValue() == 0) {
-					count++;
+					count++; // Povećava brojač praznih polja
 				}
 			}
 		}
-		return count;
+
+		return count; // Vraća ukupan broj praznih polja na tabli
 	}
 
-	/*
-	 * Metoda printa plocu u konzolu
+	/**
+	 * Metoda printBoard ispisuje ploču igre u konzolu.
 	 */
 	public void printBoard() {
+		// Iterira kroz redove ploče
 		for (int i = 0; i < SIZE; i++) {
+			// Iterira kroz stupce ploče
 			for (int j = 0; j < SIZE; j++) {
+				// Ispisuje vrijednost pločice na trenutnom polju, zatim
+				// tabulator
 				System.out.print(board[i][j] + "\t");
 			}
+			// Prelazi u novi red nakon svakog reda ploče
 			System.out.println();
 		}
 	}
 
-	/*
-	 * Potez prema gore
+	/**
+	 * Potez prema gore.
 	 */
 	public void moveUp() {
 		boolean moved = false;
@@ -99,11 +126,15 @@ public class Board {
 			for (int i = 1; i < SIZE; i++) {
 				if (board[i][j].getValue() != 0) {
 					int row = i;
+					// Pomak prema gore sve dok ima praznih polja ili dok se
+					// pločice mogu spajati
 					while (row > 0 && (board[row - 1][j].getValue() == 0
 							|| board[row - 1][j].getValue() == board[row][j]
 									.getValue())) {
+						// Ako se pločice mogu spojiti
 						if (board[row - 1][j].getValue() == board[row][j]
 								.getValue() && mergeValue != row - 1) {
+							// Spajanje pločica
 							board[row - 1][j]
 									.setValue(board[row - 1][j].getValue() * 2);
 							score += board[row - 1][j].getValue();
@@ -111,6 +142,7 @@ public class Board {
 							mergeValue = row - 1;
 							moved = true;
 						} else if (board[row - 1][j].getValue() == 0) {
+							// Pomak pločice prema gore
 							board[row - 1][j]
 									.setValue(board[row][j].getValue());
 							board[row][j].setValue(0);
@@ -121,15 +153,16 @@ public class Board {
 				}
 			}
 		}
+
+		// Ako je potez izvršen, dodaj novi broj i ažuriraj rezultat
 		if (moved) {
 			addNewNumber();
-			// updateScore();
-			// updateGridLabels();
+			updateScore();
 		}
 	}
 
-	/*
-	 * Potez prema dole
+	/**
+	 * Potez prema dole.
 	 */
 	public void moveDown() {
 		boolean moved = false;
@@ -138,11 +171,15 @@ public class Board {
 			for (int i = SIZE - 2; i >= 0; i--) {
 				if (board[i][j].getValue() != 0) {
 					int row = i;
+					// Pomak prema dolje sve dok ima praznih polja ili dok se
+					// pločice mogu spajati
 					while (row < SIZE - 1 && (board[row + 1][j].getValue() == 0
 							|| board[row + 1][j].getValue() == board[row][j]
 									.getValue())) {
+						// Ako se pločice mogu spojiti
 						if (board[row + 1][j].getValue() == board[row][j]
 								.getValue() && mergeValue != row + 1) {
+							// Spajanje pločica
 							board[row + 1][j]
 									.setValue(board[row + 1][j].getValue() * 2);
 							score += board[row + 1][j].getValue();
@@ -150,6 +187,7 @@ public class Board {
 							mergeValue = row + 1;
 							moved = true;
 						} else if (board[row + 1][j].getValue() == 0) {
+							// Pomak pločice prema dolje
 							board[row + 1][j]
 									.setValue(board[row][j].getValue());
 							board[row][j].setValue(0);
@@ -160,29 +198,32 @@ public class Board {
 				}
 			}
 		}
+		// Ako je potez izvršen, dodaj novi broj i ažuriraj rezultat
 		if (moved) {
 			addNewNumber();
-			// updateScore();
-			// updateGridLabels();
+			updateScore();
 		}
 	}
 
-	/*
-	 * Potez prema lijevo
+	/**
+	 * Potez prema lijevo.
 	 */
 	public void moveLeft() {
-		// int prevScore = score;
 		boolean moved = false;
 		for (int i = 0; i < SIZE; i++) {
 			int mergeValue = -1;
 			for (int j = 1; j < SIZE; j++) {
 				if (board[i][j].getValue() != 0) {
 					int col = j;
+					// Pomak prema lijevo sve dok ima praznih polja ili dok se
+					// pločice mogu spajati
 					while (col > 0 && (board[i][col - 1].getValue() == 0
 							|| board[i][col - 1].getValue() == board[i][col]
 									.getValue())) {
+						// Ako se pločice mogu spojiti
 						if (board[i][col - 1].getValue() == board[i][col]
 								.getValue() && mergeValue != col - 1) {
+							// Spajanje pločica
 							board[i][col - 1]
 									.setValue(board[i][col - 1].getValue() * 2);
 							score += board[i][col - 1].getValue();
@@ -190,6 +231,7 @@ public class Board {
 							mergeValue = col - 1;
 							moved = true;
 						} else if (board[i][col - 1].getValue() == 0) {
+							// Pomak pločice ulijevo
 							board[i][col - 1]
 									.setValue(board[i][col].getValue());
 							board[i][col].setValue(0);
@@ -200,29 +242,32 @@ public class Board {
 				}
 			}
 		}
+		// Ako je potez izvršen, dodaj novi broj i ažuriraj rezultat
 		if (moved) {
 			addNewNumber();
-			// updateScore();
-			// updateGridLabels();
+			updateScore();
 		}
 	}
 
-	/*
-	 * Potez prema desno
+	/**
+	 * Potez prema desno.
 	 */
 	public void moveRight() {
-		// int prevScore = score;
 		boolean moved = false;
 		for (int i = 0; i < SIZE; i++) {
 			int mergeValue = -1;
 			for (int j = SIZE - 2; j >= 0; j--) {
 				if (board[i][j].getValue() != 0) {
 					int col = j;
+					// Pomak prema desno sve dok ima praznih polja ili dok se
+					// pločice mogu spajati
 					while (col < SIZE - 1 && (board[i][col + 1].getValue() == 0
 							|| board[i][col + 1].getValue() == board[i][col]
 									.getValue())) {
+						// Ako se pločice mogu spojiti
 						if (board[i][col + 1].getValue() == board[i][col]
 								.getValue() && mergeValue != col + 1) {
+							// Spajanje pločica
 							board[i][col + 1]
 									.setValue(board[i][col + 1].getValue() * 2);
 							score += board[i][col + 1].getValue();
@@ -230,6 +275,7 @@ public class Board {
 							mergeValue = col + 1;
 							moved = true;
 						} else if (board[i][col + 1].getValue() == 0) {
+							// Pomak pločice udesno
 							board[i][col + 1]
 									.setValue(board[i][col].getValue());
 							board[i][col].setValue(0);
@@ -240,10 +286,10 @@ public class Board {
 				}
 			}
 		}
+		// Ako je potez izvršen, dodaj novi broj i ažuriraj rezultat
 		if (moved) {
 			addNewNumber();
-			// updateScore();
-			// updateGridLabels();
+			updateScore();
 		}
 	}
 
@@ -276,7 +322,7 @@ public class Board {
 	 */
 	public boolean isGameOver() {
 		// Provjera uslova za pobjedu
-		if (winConditionReached) {
+		if (win) {
 			return true; // Igra je završena s pobjedom
 		}
 
@@ -311,30 +357,11 @@ public class Board {
 	}
 
 	/**
-	 * Ponovno pokreće igru. Postavlja bodove na nulu, poništava uslov za
-	 * pobjedu, inicijalizira novu ploču.
-	 */
-	public void newGame() {
-		// Postavi bodove na nulu
-		score = 0;
-
-		// Poništi uslov za pobjedu
-		winConditionReached = false;
-
-		// Inicijaliziraj novu ploču
-		initializeGrid();
-
-		// Ako postoje metode za ažuriranje prikaza bodova i ploče,
-		// pozovi ih
-		// updateScore();
-		// updateGridLabels();
-	}
-
-	/**
 	 * Inicijalizira ploču na početku igre. Sve pločice se postavljaju na
 	 * vrijednost 0. Dodaje se dva novi broj na nasumične pozicije.
 	 */
 	public void initializeGrid() {
+
 		// Postavi sve pločice na vrijednost 0
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
@@ -345,5 +372,12 @@ public class Board {
 		// Dodaj dva nova broja na nasumične pozicije
 		addNewNumber();
 		addNewNumber();
+	}
+
+	public void updateScore() {
+		// Updates the score
+		if (score > highScore) {
+			highScore = score;
+		}
 	}
 }
