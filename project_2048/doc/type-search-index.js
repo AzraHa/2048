@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"project_2048_logic","l":"Board"},{"p":"project_2048_logic","l":"Color2048"},{"p":"project_2048_GUI","l":"GamePanel"},{"p":"project_2048_console","l":"Main"},{"p":"project_2048_GUI","l":"Main"},{"p":"project_2048_logic","l":"Tile"}];updateSearchResults();
