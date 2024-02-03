@@ -9725,3 +9725,20 @@ java.lang.NullPointerException: Cannot invoke "java.nio.file.Path.toString()" be
 
 !ENTRY org.eclipse.jdt.core 2 0 2024-02-03 14:15:36.783
 !MESSAGE Unable to instantiate formatter extension 'com.thegreatgooo.eclipse.prettier.PrettierFormatter', returning built-in formatter.
+
+!ENTRY org.eclipse.egit.core 4 0 2024-02-03 14:19:39.223
+!MESSAGE An exception occurred during push on URI https://github.com/AzraHa/2048: https://github.com/AzraHa/2048: not authorized
+!STACK 0
+org.eclipse.jgit.errors.TransportException: https://github.com/AzraHa/2048: not authorized
+	at org.eclipse.jgit.transport.TransportHttp.connect(TransportHttp.java:695)
+	at org.eclipse.jgit.transport.TransportHttp.connect(TransportHttp.java:637)
+	at org.eclipse.jgit.transport.TransportHttp.openPush(TransportHttp.java:541)
+	at org.eclipse.jgit.transport.PushProcess.execute(PushProcess.java:140)
+	at org.eclipse.jgit.transport.Transport.push(Transport.java:1557)
+	at org.eclipse.egit.core.op.PushOperation.run(PushOperation.java:269)
+	at org.eclipse.egit.ui.internal.push.PushJob.performJob(PushJob.java:86)
+	at org.eclipse.egit.ui.internal.jobs.RepositoryJob.run(RepositoryJob.java:59)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.egit.ui 4 0 2024-02-03 14:19:39.224
+!MESSAGE Can't connect to any repository: https://github.com/AzraHa/2048 (https://github.com/AzraHa/2048: not authorized)
