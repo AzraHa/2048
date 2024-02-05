@@ -399,7 +399,7 @@ public class Board implements Serializable {
 	/**
 	 * Ucitava plocu sa spremljenim podacima i postalja vrijednosti na nju
 	 * 
-	 * @param board
+	 * @param board - parametar koji sluzi da update-amo grid sa njegvim vrijednostima
 	 */
 	public void loadGrid(Board board) {
 
@@ -430,8 +430,8 @@ public class Board implements Serializable {
 	/**
 	 * Metoda koja loada-a rezultat i najviši rezultat prethodne igre
 	 * 
-	 * @param lastScore
-	 * @param lastHighScore
+	 * @param lastScore - rezultat u zadnjoj igri
+	 * @param lastHighScore - najvisi rezultat iz zadnje igre(ili igri opcenito)
 	 */
 	public void loadScore(int lastScore, int lastHighScore) {
 		this.score = lastScore;

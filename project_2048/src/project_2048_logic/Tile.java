@@ -11,6 +11,10 @@ import java.io.Serializable;
  */
 public class Tile implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Vrijednost plocice
+	 */
 	private int value;
 
 	/**

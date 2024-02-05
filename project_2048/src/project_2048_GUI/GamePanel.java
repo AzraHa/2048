@@ -83,8 +83,6 @@ public class GamePanel extends JPanel {
 	 */
 	private static final String SAVE_FILE_NAME = "spremljeno/2048_save.ser";
 
-	FileReader data;
-
 	/**
 	 * Konstruktor koji inicijalizira GUI komponente i postavlja osnovne
 	 * postavke ploce
