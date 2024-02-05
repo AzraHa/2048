@@ -7,6 +7,9 @@
 #Documentation
 project_2048/doc/
 
+#Saved game info
+spremljeno/
+
 # Eclipse
 .metadata/
 bin/

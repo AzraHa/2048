@@ -9,7 +9,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -127,6 +126,8 @@ public class GamePanel extends JPanel {
 
 		// Dodavanje komponenti na prozor
 		frame.add(gridPanel, BorderLayout.CENTER);
+        frame.setLocationRelativeTo(null);
+
 		JPanel infoPanel = new JPanel(new GridLayout(2, 2));
 		scoreLabel = new JLabel("Score: 0", JLabel.CENTER);
 		highScoreLabel = new JLabel("High Score: 0", JLabel.CENTER);
