@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"project_2048_console"},{"l":"project_2048_GUI"},{"l":"project_2048_logic"}];updateSearchResults();
