@@ -1,5 +1,7 @@
 package project_2048_logic;
 
+import java.io.Serializable;
+
 /**
  * 
  * Predstavlja pojedinačnu pločicu u igri. Ima cjelobrojnu vrijednost i boju -
@@ -7,7 +9,8 @@ package project_2048_logic;
  * 
  * @author Azra HAdzihajdarevic
  */
-public class Tile {
+public class Tile implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private int value;
 
 	/**

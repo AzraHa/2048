@@ -1,5 +1,6 @@
 package project_2048_logic;
 
+import java.io.Serializable;
 import java.util.Random;
 /**
  * 
@@ -12,7 +13,9 @@ import java.util.Random;
  * @author Azra Hadzihajdarevic
  */
 
-public class Board {
+public class Board implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 2D polje koje predstavlja ploču igre
 	 */
@@ -346,8 +349,8 @@ public class Board {
 		}
 
 		// Provjera praznih ćelija
-		for (int i = 0; i < SIZE; i++) {
-			for (int j = 0; j < SIZE; j++) {
+		for (int i = 0; i < Board.SIZE; i++) {
+			for (int j = 0; j < Board.SIZE; j++) {
 				if (board[i][j].getValue() == 0) {
 					return false; // Postoje prazne plocice, igra nije završena
 				}
@@ -394,6 +397,25 @@ public class Board {
 	}
 
 	/**
+	 * Ucitava plocu sa spremljenim podacima i postalja vrijednosti na nju
+	 * 
+	 * @param board
+	 */
+	public void loadGrid(Board board) {
+
+		// Postavi sve pločice na vrijednost 0
+		for (int i = 0; i < Board.SIZE; i++) {
+			for (int j = 0; j < Board.SIZE; j++) {
+				this.board[i][j].setValue(board.board[i][j].getValue());
+			}
+		}
+
+		// Dodaj dva nova broja na nasumične pozicije
+		addNewNumber();
+		addNewNumber();
+	}
+
+	/**
 	 * Metoda koja ažurira najviši rezultat ukoliko trenutni rezultat premašuje
 	 * trenutni najviši rezultat.
 	 */
@@ -405,4 +427,14 @@ public class Board {
 		}
 	}
 
+	/**
+	 * Metoda koja loada-a rezultat i najviši rezultat prethodne igre
+	 * 
+	 * @param lastScore
+	 * @param lastHighScore
+	 */
+	public void loadScore(int lastScore, int lastHighScore) {
+		this.score = lastScore;
+		this.highScore = lastHighScore;
+	}
 }

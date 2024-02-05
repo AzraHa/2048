@@ -1,6 +1,7 @@
 package project_2048_logic;
 
 import java.awt.Color;
+import java.io.Serializable;
 
 /**
  * Klasa Color2048 ima jednu metodu za dobijanje boja koje predstavljaju
@@ -13,7 +14,9 @@ import java.awt.Color;
  * 
  * @author Azra Hadžihajdarević
  */
-public class Color2048 {
+public class Color2048 implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Vraća boju na osnovu navedene vrijednosti za pločicu u igri 2048.
