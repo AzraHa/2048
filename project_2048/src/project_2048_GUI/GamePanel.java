@@ -5,6 +5,14 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Random;
 
 import javax.swing.BorderFactory;
@@ -18,18 +26,19 @@ import project_2048_logic.Color2048;
 
 /**
  * GamePanel klasa koja predstavlja GUI za igru 2048.
- *  @author Azra Hadzihajdarevic
+ * 
+ * @author Azra Hadzihajdarevic
  */
 public class GamePanel extends JPanel {
 	/**
-	 * Identifikacijski broj za verziju serijalizacije.
-	 * Ovo se koristi kako bi se osiguralo da se serijalizirani podaci mogu deserializirati ispravno
+	 * Identifikacijski broj za verziju serijalizacije. Ovo se koristi kako bi
+	 * se osiguralo da se serijalizirani podaci mogu deserializirati ispravno
 	 * čak i kada su se unijele određene promjene u klasu.
 	 */
 	private static final long serialVersionUID = 1L;
 
 	// Instanciranje objekata za logiku igre i boje
-	
+
 	/**
 	 * Objekt koji predstavlja logiku igre 2048
 	 */
@@ -41,7 +50,7 @@ public class GamePanel extends JPanel {
 	private Color2048 color;
 
 	// GUI komponente
-	
+
 	/**
 	 * Dvodimenzionalno polje JLabel objekata koje predstavlja prikaz ploče igre
 	 */
@@ -67,6 +76,14 @@ public class GamePanel extends JPanel {
 	 */
 	private JLabel highScoreLabel;
 
+	/**
+	 * SAVE_FILE_NAME predstavlja ime fajla u kojeg cuvamo podatke o igri .ser
+	 * se koristi za datoteke koje su serializirane u Javi serializacijom stanje
+	 * objekta pretvaramo u niz bajtova
+	 */
+	private static final String SAVE_FILE_NAME = "spremljeno/2048_save.ser";
+
+	FileReader data;
 
 	/**
 	 * Konstruktor koji inicijalizira GUI komponente i postavlja osnovne
@@ -83,6 +100,16 @@ public class GamePanel extends JPanel {
 		// Inicijalizacija GUI komponenti
 		frame = new JFrame("2048");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// Pozivamo metodu saveGame kada se prozor zatvori
+				saveGame();
+				frame.dispose();
+			}
+		});
+
 		frame.setSize(400, 450);
 		frame.setLayout(new BorderLayout());
 
@@ -123,11 +150,11 @@ public class GamePanel extends JPanel {
 				} else if (keyCode == KeyEvent.VK_RIGHT) {
 					newBoard.moveRight();
 				}
-				
+
 				// Ažuriranje prikaza
 				updateGridLabels();
 				updateScore();
-				
+
 				// Provjera završetka igre
 				if (newBoard.isGameOver()) {
 					showGameOverMessage();
@@ -142,6 +169,11 @@ public class GamePanel extends JPanel {
 
 		newBoard.initializeGrid();
 		updateGridLabels();
+
+		// Pozivamo metodu loadGame da provjerimo da li postoji vec spasena
+		// igirca
+		loadGame();
+
 	}
 
 	/**
@@ -218,4 +250,63 @@ public class GamePanel extends JPanel {
 			highScoreLabel.setText("High Score: " + newBoard.highScore);
 		}
 	}
+
+	/**
+	 * Metoda za spremanje stanja igre
+	 */
+	public void saveGame() {
+		try {
+
+			FileOutputStream fos = new FileOutputStream(SAVE_FILE_NAME);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+			oos.writeObject(newBoard);
+			oos.writeObject(color);
+
+			oos.close();
+			fos.close();
+
+		} catch (IOException i) {
+			i.printStackTrace();
+		}
+	}
+
+	/**
+	 * Metoda koja učitava podatke o igri iz datoteke.
+	 */
+	public void loadGame() {
+		try {
+			// Otvaranje ulaznog toka za čitanje podataka iz datoteke
+			FileInputStream fis = new FileInputStream(SAVE_FILE_NAME);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+
+			// Čitanje objekata Board i Color2048 iz datoteke
+			newBoard = (Board) ois.readObject();
+			color = (Color2048) ois.readObject();
+
+			// Zatvaranje ulaznog toka
+			ois.close();
+
+			// Učitavanje stanja ploče i rezultata iz objekta Board
+			newBoard.loadGrid(newBoard);
+			newBoard.loadScore(newBoard.score, newBoard.highScore);
+
+			// Ažuriranje prikaza rezultata
+			newBoard.updateScore();
+			scoreLabel.setText("Score: " + newBoard.score);
+			highScoreLabel.setText("High Score: " + newBoard.highScore);
+
+			// Ažuriranje prikaza ploče
+			updateGridLabels();
+		} catch (IOException i) {
+			// Greška prilikom čitanja datoteke
+			i.printStackTrace();
+			return;
+		} catch (ClassNotFoundException c) {
+			// Greška prilikom pronalaska klase tokom deserializacije
+			c.printStackTrace();
+			return;
+		}
+	}
+
 }
